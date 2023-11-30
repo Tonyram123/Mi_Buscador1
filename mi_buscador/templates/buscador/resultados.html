@@ -1,0 +1,78 @@
+<!-- buscador/resultados.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Búsqueda</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #fff;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .no-results {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* Optional: Add styles for responsiveness */
+        @media (max-width: 768px) {
+            li {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% if resultados_totales %}
+        <h2>Resultados para todas las palabras clave</h2>
+        <p>Tiempo total de búsqueda: {{ tiempo_total }} segundos</p>
+        <ul>
+            {% for item in resultados_totales %}
+                <li>
+                    <h2>Resultados para '{{ item.palabra_clave }}'</h2>
+                    {% if item.resultados %}
+                        <ul>
+                            {% for resultado in item.resultados %}
+                                <li>
+                                    <p>URL: {{ resultado.url }}</p>
+                                    <p>Título: {{ resultado.titulo }}</p>
+                                    <p>Relevancia: {{ resultado.relevancia }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="no-results">No se encontraron resultados para '{{ item.palabra_clave }}'</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-results">No se encontraron resultados para las palabras clave proporcionadas</p>
+    {% endif %}
+</body>
+</html>
